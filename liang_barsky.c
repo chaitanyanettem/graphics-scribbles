@@ -4,7 +4,7 @@ double xmin=50,ymin=50,xmax=100,ymax=100;
 double xvmin=200,yvmin=200,xvmax=300,yvmax=300;
 float X0,Y0,X1,Y1;
  
-int clip_test(double p,double q,double *t1,double *t2)
+int test_clipping(double p,double q,double *t1,double *t2)
 {
     double t=q/p;
     if(p<0.0)
@@ -18,12 +18,12 @@ int clip_test(double p,double q,double *t1,double *t2)
             if(t<*t2) *t2=t;
             if(t<*t2) return(false);
         }
-        else
-            if(p==0.0)
-            {
-                if(q<0.0) return(false);
-            }
-            return(true);
+    else
+        if(p==0.0)
+        {
+            if(q<0.0) return(false);
+        }
+    return(true);
 }
  
 void LiangBarsky(double x0,double y0,double x1,double y1)
@@ -36,10 +36,10 @@ void LiangBarsky(double x0,double y0,double x1,double y1)
 	glVertex2f(xvmax,yvmax);
 	glVertex2f(xvmin,yvmax);
     glEnd();
-    if(clip_test(-dx,x0-xmin,&te,&t1))
-        if(clip_test(dx,xmax-x0,&te,&t1))
-            if(clip_test(-dy,y0-ymin,&te,&t1))
-                if(clip_test(dy,ymax-y0,&te,&t1))
+    if(test_clipping(-dx,x0-xmin,&te,&t1))
+        if(test_clipping(dx,xmax-x0,&te,&t1))
+            if(test_clipping(-dy,y0-ymin,&te,&t1))
+                if(test_clipping(dy,ymax-y0,&te,&t1))
                 {
                     if(t1<1.0)
                     {
